@@ -33,7 +33,9 @@ jobs:
         if: always()
         with:
           diff-pdf-version: '0.5'
-
+      - name: Setup headless display
+        uses: pyvista/setup-headless-display-action@v1
+        
       - name: Compile the differences between versions
         run: diff-pdf -m --output-diff=diff.pdf main.pdf previous/main.pdf
       - name: Create Release

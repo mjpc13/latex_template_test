@@ -20,21 +20,7 @@ jobs:
         uses: 1466587594/get-current-time@v2
         id: current-time
 
-      - uses: robinraju/release-downloader@v1.6
-        with: 
-          latest: true
-          fileName: "main.pdf"
-          tarBall: false
-          zipBall: false
-          out-file-path: "previous.pdf"
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: hidakatsuya/setup-diff-pdf@v1
-        with:
-          diff-pdf-version: '0.5'
-
-      - name: Compile the differences between versions
-        run: diff-pdf --output-diff=diff.pdf main.pdf previous.pdf
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -47,7 +33,7 @@ jobs:
           generate_release_notes: true
           files: |
             main.pdf
-            diff.pdf
+
       - name: Generate dummy page
         run: |
           mkdir public

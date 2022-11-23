@@ -19,19 +19,20 @@ jobs:
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
-      - name: Get previous release tag
-        id: previous-release
-        uses: sammcoe/get-previous-release-action@v1
-      - name: Download previous release asset
-        uses: houqp/download-release-assets@v1
-        with:
-          release: ${{ steps.previous-release.output.release }}
-          repo: ${{ github.event.repository.name }}
-          match: "main.pdf"
-          rename: previous.pdf
+
+      - uses: robinraju/release-downloader@v1.6
+        with: 
+          latest: true
+          fileName: "main.pdf"
+          tarBall: false
+          zipBall: false
+          out-file-path: "previous.pdf"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: hidakatsuya/setup-diff-pdf@v1
         with:
           diff-pdf-version: '0.5'
+
       - name: Compile the differences between versions
         run: diff-pdf --output-diff=diff.pdf main.pdf previous.pdf
       - name: Create Release

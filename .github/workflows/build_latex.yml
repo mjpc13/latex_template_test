@@ -31,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: main.pdf
-          path: ''
+          path: '.'
 
   build_diff:
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: diff.pdf
-          path: ''
+          path: '.'
 
   create_release:
     needs: [build_latex, build_diff]

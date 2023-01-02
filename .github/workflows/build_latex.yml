@@ -31,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: main.pdf
-          #path: path/to/artifact
+          path: ''
 
   build_diff:
     runs-on: ubuntu-latest
@@ -53,9 +53,10 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: diff.pdf
-          #path: path/to/artifact
+          path: ''
 
   create_release:
+    needs: [build_latex, build_diff]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

@@ -28,16 +28,42 @@ jobs:
           zipBall: false
           out-file-path: "previous"
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: hidakatsuya/setup-diff-pdf@v1
-        if: always()
+      - uses: actions/upload-artifact@master
         with:
-          diff-pdf-version: '0.5'
-      - name: Setup headless display
-        uses: pyvista/setup-headless-display-action@v1
+          name: main.pdf
+          #path: path/to/artifact
 
-      - name: Compile the differences between versions
-        run: export NO_AT_BRIDGE=1 && diff-pdf -m --output-diff=diff.pdf main.pdf previous/main.pdf
+  build_diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+        fetch-depth: 0
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: v1.0 # Optional fallback tag to use when no tag can be found
+      - name: Generate Difference PDF
+        uses:  Arthur1/latex-diff-action@v2
+        with:
+          root_file: main.tex
+          compile_diff: true
+          compile_diff_target: ${{ steps.previoustag.outputs.tag }}
+      - uses: actions/upload-artifact@master
+        with:
+          name: diff.pdf
+          #path: path/to/artifact
+
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@master
+        with:
+          name: |
+          main.pdf
+          diff.pdf
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1

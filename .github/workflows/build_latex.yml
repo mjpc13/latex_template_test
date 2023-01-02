@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-        fetch-depth: 0
+          fetch-depth: 0
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"

@@ -61,9 +61,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@master
         with:
-          name: |
-          main.pdf
-          diff.pdf
+          name: main.pdf diff.pdf
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1

@@ -30,7 +30,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@master
         with:
-          name: main.pdf
+          name: main
           path: './main.pdf'
 
   build_diff:
@@ -52,7 +52,7 @@ jobs:
           compile_diff_target: ${{ steps.previoustag.outputs.tag }}
       - uses: actions/upload-artifact@master
         with:
-          name: diff.pdf
+          name: diff
           path: './diff.pdf'
 
   create_release:
@@ -72,8 +72,8 @@ jobs:
           name: Release ${{ github.ref }}
           generate_release_notes: true
           files: |
-            main.pdf
-            diff.pdf
+            main/main.pdf
+            diff/diff.pdf
       - name: Generate dummy page
         run: |
           mkdir public

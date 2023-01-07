@@ -77,7 +77,7 @@ jobs:
       - name: Generate dummy page
         run: |
           mkdir public
-          cp main.pdf public/main.pdf
+          cp main/main.pdf public/main.pdf
           cat > public/index.html <<EOL
           <!doctype html>
           <html height="100%">

@@ -45,9 +45,9 @@ jobs:
       - name: 'Get Previous tag'
         id: previoustag
         run: |
-          echo "tag=" >> text.tmp
-          git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) >> text.tmp
-          cat text.tmp >> $GITHUB_OUTPUT
+          export PREV_TAG
+          PREV_TAG="$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))"
+          echo "tag=${PREV_TAG}" >> $GITHUB_OUTPUT
       - name: Generate Difference PDF
         uses:  Arthur1/latex-diff-action@v2
         with:
